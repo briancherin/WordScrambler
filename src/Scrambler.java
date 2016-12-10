@@ -6,29 +6,29 @@ import java.util.Random;
  */
 public class Scrambler {
     public static String scrambleWord(String word){
-        String scrambledWord = "";
 
         ArrayList<Character> charList = new ArrayList<>();
         for (Character c : word.toCharArray()){
-            charList.add(c);    //add each character to list
+            charList.add(c);    //adds each character to list
         }
 
         ArrayList<Character>scrambledCharacters = new ArrayList<>();
         Random rand = new Random();
         int numChars = charList.size();
+        //rearranges the characters
         for (int i = 0; i < numChars; i++) {
-            //rearrange the characters
             int randNum = rand.nextInt(charList.size());
             scrambledCharacters.add(charList.get(randNum));
             charList.remove(randNum);
         }
 
-        //remake String
+        //rebuilds the scrambled word
+        StringBuilder sb  = new StringBuilder();
         for (Character c : scrambledCharacters) {
-            scrambledWord += c;
+            sb.append(c);
         }
 
-        return scrambledWord;
+        return sb.toString();
     }
 
     public static WordPair generateWordPair(String word){

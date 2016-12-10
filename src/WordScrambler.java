@@ -5,8 +5,9 @@ import java.util.Scanner;
  */
 public class WordScrambler {
 
-    static final int hard = 9999;
-    static final int easy = 1111;
+    public static final int numGuesses = 3;
+
+    public enum Difficulty {easy, hard}
 
 
     public static void main (String[] args){
@@ -16,29 +17,34 @@ public class WordScrambler {
 
         System.out.println("Scrambled: " + pair.scrambledWord);
 
-        int numGuesses = 0;
-        while (numGuesses < 3) {
+        int tries = 0;
+        while (tries < numGuesses) {
             System.out.println("Answer: ");
             String guess = scanner.nextLine().toLowerCase();
             if (guess.equals(pair.unscrambledWord)) {
                 System.out.println("YOU GOT IT RIGHT!!");
                 break;
             } else {
-                System.out.println("You are a failure. Try again: " + pair.scrambledWord);
+                System.out.println("You are a failure. Scrambled word: " + pair.scrambledWord);
             }
-            numGuesses++;
+            tries++;
         }
-        System.out.println("The word was: " + pair.unscrambledWord + ".");
+        if (tries == numGuesses) {  //if user ran out of guesses
+            System.out.println("The word was: " + pair.unscrambledWord + ".");
+        }
 
 
     }
 
-    public static WordPair getScrambledWordAndAnswer(int difficulty) {
-        if (difficulty == hard) {
-            return Scrambler.generateWordPair(WordRetriever.getRandomWordFromApi());
+    public static WordPair getScrambledWordAndAnswer(Difficulty difficulty) {
+
+        switch(difficulty) {
+            case easy:
+                return Scrambler.generateWordPair(WordRetriever.getRandomWordFromApi());
+            default:
+                return Scrambler.generateWordPair(WordRetriever.getRandomWordFromTextFile());
         }
-        //default easy
-        return Scrambler.generateWordPair(WordRetriever.getRandomWordFromTextFile());
+
     }
 
     public static WordPair getPairFromDifficulty(){
@@ -48,14 +54,14 @@ public class WordScrambler {
         while(!(input.equals("h") || input.equals("e"))) {
             input = scanner.nextLine();
             if (input.equals("h")) {
-                return getScrambledWordAndAnswer(hard);
+                return getScrambledWordAndAnswer(Difficulty.easy);
             } else if (input.equals("e")) {
-                return getScrambledWordAndAnswer(easy);
+                return getScrambledWordAndAnswer(Difficulty.hard);
             }
             System.out.println("[h]ard or [e]asy?");
         }
         System.out.println("HERE");
-        return getScrambledWordAndAnswer(easy);
+        return getScrambledWordAndAnswer(Difficulty.easy);
     }
 
 }

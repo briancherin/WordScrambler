@@ -7,6 +7,8 @@ import java.util.Random;
  * Created by Brian on 12/8/2016.
  */
 public class WordRetriever {
+    final static String wordsFileName = "words.txt";
+
     public static String getRandomWordFromApi() {
         String word = "";
 
@@ -22,13 +24,11 @@ public class WordRetriever {
     }
 
     public static String getRandomWordFromTextFile() {
-        String word = "";
-        String filename = "words.txt";
 
         ArrayList<String> words = new ArrayList<>();
         String line;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
+            BufferedReader br = new BufferedReader(new FileReader(new File(wordsFileName)));
             while ((line = br.readLine()) != null){
                 words.add(line);
             }
